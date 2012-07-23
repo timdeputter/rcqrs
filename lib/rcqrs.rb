@@ -1,4 +1,5 @@
 require "rcqrs/version"
+
 require "rcqrs/repository"
 require "rcqrs/base_event"
 require "rcqrs/aggregate_root_base"
