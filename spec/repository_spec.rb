@@ -30,6 +30,46 @@ describe Rcqrs::Repository, "when Aggregates are loaded" do
   
 end
 
+
+describe Rcqrs::Repository, "when Aggregateroots are saved" do
+  
+  before do
+    @aggregate_id = UUID.generate
+    @testaggregate = TestAggregate.new @aggregate_id
+    @mockEventStore = mock("Eventbus")
+    @repo = Rcqrs::Repository.new @mockEventStore    
+  end
+  
+  it "should save all the pending events of the aggregateroot" do
+    @mockEventStore.should_receive(:publish).with(@aggregate_id, an_instance_of(TestEvent))
+    @testaggregate.doSomething
+    @repo.save @testaggregate
+  end
+  
+end
+
+describe Rcqrs::Repository do
+  
+    before do
+      @aggregate_id = UUID.generate
+      @testaggregate = TestAggregate.new @aggregate_id
+      @mockEventStore = mock("Eventbus")
+      @repo = Rcqrs::Repository.new @mockEventStore    
+    end
+  
+    it "should allow to fire domainevents directly" do
+      repoTestEvent = RepoTestEvent.new
+      @mockEventStore.should_receive(:publish).with(@aggregate_id,repoTestEvent)
+      @repo.fire(@aggregate_id, repoTestEvent)
+    end
+    
+    it "should reject events not inherited from base event" do
+      expect{ @repo.fire(@aggregate_id,"no Event") }.to raise_error(NotAnEventException)
+    end
+    
+end
+
+
 class TestEvent < BaseEvent
 end
 

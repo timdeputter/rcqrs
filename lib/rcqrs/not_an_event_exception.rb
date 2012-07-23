@@ -1,0 +1,3 @@
+class NotAnEventException < Exception
+  
+end
