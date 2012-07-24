@@ -64,39 +64,12 @@ describe Rcqrs::Repository do
     end
     
     it "should reject events not inherited from base event" do
-      expect{ @repo.fire(@aggregate_id,"no Event") }.to raise_error(NotAnEventException)
+      expect{ @repo.fire(@aggregate_id,"no Event") }.to raise_error(Rcqrs::NotAnEventException)
     end
     
 end
 
-
-class TestEvent < BaseEvent
-end
-
-class RepoTestEvent < BaseEvent
+class RepoTestEvent < Rcqrs::BaseEvent
   
 end
 
-class TestAggregate < AggregateRootBase
-
-  attr_reader :handledEvents
-
-  def initialize id
-    super
-    @handledEvents = Array.new
-  end
-
-  def doSomething
-    fire TestEvent.new 
-  end
-  
-  def doSomethingStupid
-    fire "no Event"
-  end
-
-  private
-  def handleTestEvent event
-    @handledEvents << event
-  end
-
-end
