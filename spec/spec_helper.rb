@@ -9,6 +9,7 @@ require_relative "../lib/rcqrs"
 
 require_relative "test_aggregate"
 require_relative "test_event"
+require_relative "test_command_handler"
 require_relative "ricko"
 
 RSpec.configure do |config|
