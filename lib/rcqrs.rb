@@ -18,6 +18,8 @@ require "rcqrs/event_bus"
 require "rcqrs/not_an_event_exception"
 require "rcqrs/event_handler"
 require "rcqrs/domain_exception"
+require "rcqrs/event_type_registry"
+require "rcqrs/event_configuration_base"
 
 module Rcqrs
   # Your code goes here...
