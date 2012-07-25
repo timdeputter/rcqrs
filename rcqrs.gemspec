@@ -7,7 +7,6 @@ Gem::Specification.new do |s|
   s.version     = Rcqrs::VERSION
   s.authors     = ["Tim de Putter"]
   s.email       = ["tim.de.putter83@googlemail.com"]
-  s.homepage    = "no homepage"
   s.summary     = %q{Framework to provide cqrs + eventsourcing functionality in ruby.}
   s.description = %q{Framework to provide cqrs + eventsourcing functionality in ruby.}
 

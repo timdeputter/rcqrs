@@ -1,0 +1,3 @@
+class UnknownEventException < Exception
+  
+end
