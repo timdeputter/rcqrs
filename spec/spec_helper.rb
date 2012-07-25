@@ -11,6 +11,8 @@ require_relative "test_aggregate"
 require_relative "test_event"
 require_relative "test_command_handler"
 require_relative "ricko"
+require_relative "test_command_source"
+require_relative "test_event_bus"
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true

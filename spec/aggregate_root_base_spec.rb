@@ -1,7 +1,3 @@
-#Dir["./lib/infrastructure/*.rb"].each {|file| require file }
-#Dir["./spec/infrastructure/testClasses/*.rb"].each {|file| require file }
-#require "UUID"
-#require "./spec/support/ricko/ricko.rb"
 require "spec_helper"
 
 describe Rcqrs::AggregateRootBase do 

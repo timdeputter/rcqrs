@@ -25,11 +25,11 @@ module Rcqrs
     
     def get_commandhandler_class command
       handler_name = get_handler_class_name(command)
-      handlerclass = Kernel.const_get(handler_name)
+      handlerclass = eval(handler_name)
       checkIfInheritsFromBaseHandler handlerclass
       return handlerclass
-      rescue NameError
-        raise CommandHandlerNotFoundError, "Could not find Commandhandler #{handler_name}"   
+    rescue NameError => e
+        raise CommandHandlerNotFoundError, "Could not find Commandhandler #{handler_name}, root cause: #{e.to_s}"   
     end
     
     def get_handler_class_name command
@@ -63,10 +63,10 @@ module Rcqrs
   
   
   
-  class CommandHandlerNotFoundError < Exception
+  class Rcqrs::CommandHandlerNotFoundError < Exception
   end
   
-  class CommandHandlerDoesNotInheritFromBaseError < Exception
+  class Rcqrs::CommandHandlerDoesNotInheritFromBaseError < Exception
   end
 
 end
