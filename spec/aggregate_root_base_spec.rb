@@ -5,9 +5,9 @@ describe Rcqrs::AggregateRootBase do
   before do
     @idgenerator = UUID.new
     @id = @idgenerator.generate
-    @testAggregate = TestAggregate.new @id
+    @testAggregate = TestAggregateModule::TestAggregate.new @id
     @mockEventStore = mockup
-    @events = [TestEvent.new, TestEvent.new]
+    @events = [TestEventModule::TestEvent.new, TestEventModule::TestEvent.new]
   end
 
   it "should handle Events" do
@@ -17,7 +17,7 @@ describe Rcqrs::AggregateRootBase do
   
   it "should events when there is no eventhandler method" do
     class UnknownEvent < Rcqrs::BaseEvent; end
-    @testAggregate.load_from [TestEvent.new,UnknownEvent.new]
+    @testAggregate.load_from [TestEventModule::TestEvent.new,UnknownEvent.new]
   end
   
   it "should collect Events in a EventCollection" do
@@ -28,7 +28,7 @@ describe Rcqrs::AggregateRootBase do
   it "should have recorded one event to be committed" do
     @testAggregate.doSomething
     @testAggregate.pending_events.commit_to @mockEventStore        
-    @mockEventStore.message(:publish).with(any, any(TestEvent)).should_be_received
+    @mockEventStore.message(:publish).with(any, any(TestEventModule::TestEvent)).should_be_received
   end
   
   it "should send its uuid to eventstore to be able to assoziate the events with the aggregate" do
@@ -47,7 +47,7 @@ describe Rcqrs::AggregateRootBase do
     @testAggregate.load_from @events
     @testAggregate.doSomething
     @testAggregate.pending_events.commit_to @mockEventStore
-    @mockEventStore.message(:publish).with(@id,any(TestEvent)).should_be_received
+    @mockEventStore.message(:publish).with(@id,any(TestEventModule::TestEvent)).should_be_received
   end
   
   it "events not inherited from BaseEvent are not allowed to be fired" do

@@ -7,7 +7,8 @@ module Rcqrs
     
     def load(aggregate_class, aggregate_id)
       aggregate = aggregate_class.new aggregate_id
-      aggregate.load_from(@event_store.load_events(aggregate_id))
+      events = @event_store.load_events(aggregate_id)
+      aggregate.load_from(events)
       aggregate
     end
     

@@ -49,7 +49,7 @@ module Rcqrs
     end
     
     def has_event_type_postfix(methodname, eventtype)
-      methodname[6,methodname.size] == eventtype.name
+      methodname[6,methodname.size] == eventtype.name.split("::").last
     end
     
     def events

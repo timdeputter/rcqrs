@@ -3,12 +3,12 @@ describe Rcqrs::EventHandler do
   before do 
     @handler = mockup
     @handler.include(Rcqrs::EventHandler)
-    @event = TestEvent.new
+    @event = TestEventModule::TestEvent.new
   end
   
   pending "should find the appropriate eventhandler method by the eventname" do
     @handler.handle("aggregate_id",@event)
-    @handler.message(:handle_test_event).with("aggregate_id", any(TestEvent)).should_be_received 
+    @handler.message(:handle_test_event).with("aggregate_id", any(TestEventModule::TestEvent)).should_be_received 
   end
   
   pending "should allow to handle multiple events" do
