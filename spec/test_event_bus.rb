@@ -12,6 +12,7 @@ class TestEventBus
   end
   
   def self.load_events(aggregate_id)
+    Array.new
   end
   
 end
