@@ -13,8 +13,16 @@ module TestAggregateModule
       fire TestEventModule::TestEvent.new 
     end
     
+    def do_something_else
+      fire TestEventModule::AnotherTestEvent.new
+    end
+    
     def doSomethingStupid
       fire "no Event"
+    end
+  
+    handle :AnotherTestEvent do |event|
+      @handledEvents << event
     end
   
     private

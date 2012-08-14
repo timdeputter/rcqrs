@@ -4,4 +4,8 @@ module TestEventModule
   
   end
   
+  class AnotherTestEvent < Rcqrs::BaseEvent
+    
+  end
+  
 end

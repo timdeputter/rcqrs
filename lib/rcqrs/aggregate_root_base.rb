@@ -2,10 +2,14 @@ module Rcqrs
 
   class AggregateRootBase
     
+    def self.handle(eventtype, &handlercode)
+      define_method "handle" + eventtype.to_s, &handlercode
+    end
+    
     def initialize id
       @id = id
     end
-          
+    
     def pending_events
       EventCollection.new @id, events
     end
@@ -13,7 +17,7 @@ module Rcqrs
     def load_from events
       events.each {|event| handle event}
     end
-    
+        
     protected
     
     def fire event
@@ -23,7 +27,7 @@ module Rcqrs
       events << event
       handle event   
     end  
-  
+    
     private
     
     def handle event
@@ -39,6 +43,7 @@ module Rcqrs
       end
       return self.method(:unknown_handler)
     end
+   
     
     def unknown_handler event
       

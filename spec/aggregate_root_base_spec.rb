@@ -54,6 +54,11 @@ describe Rcqrs::AggregateRootBase do
     expect {@testAggregate.doSomethingStupid}.to raise_error(Rcqrs::NotAnEventException)
   end
   
+  it "should allow to define eventhandlers via a class macro" do
+    @testAggregate.do_something_else
+    @testAggregate.handledEvents[0].should be_a TestEventModule::AnotherTestEvent
+  end
+  
 end
 
 
