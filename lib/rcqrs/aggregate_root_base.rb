@@ -35,15 +35,16 @@ module Rcqrs
     end
     
     def get_handler_method event
-      self.private_methods.each do |methodSymbol|
+      methodchecker = Proc.new  do |methodSymbol|
         methodname = methodSymbol.to_s
         if is_eventhandlermethod methodname, event.class
           return self.method(methodname)
         end
       end
+      self.private_methods.each &methodchecker
+      self.methods.each &methodchecker
       return self.method(:unknown_handler)
     end
-   
     
     def unknown_handler event
       

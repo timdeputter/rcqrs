@@ -55,8 +55,13 @@ describe Rcqrs::AggregateRootBase do
   end
   
   it "should allow to define eventhandlers via a class macro" do
+    @testAggregate.handleAnotherTestEvent TestEventModule::AnotherTestEvent.new
+    @testAggregate.handledEvents[0].class.should == TestEventModule::AnotherTestEvent
+  end
+  
+  it "should handle events with eventhandlers defined by class macros" do
     @testAggregate.do_something_else
-    @testAggregate.handledEvents[0].should be_a TestEventModule::AnotherTestEvent
+    @testAggregate.handledEvents[0].class.should == TestEventModule::AnotherTestEvent    
   end
   
 end

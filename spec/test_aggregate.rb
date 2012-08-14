@@ -21,12 +21,13 @@ module TestAggregateModule
       fire "no Event"
     end
   
-    handle :AnotherTestEvent do |event|
+    private
+    
+    def handleTestEvent event
       @handledEvents << event
     end
   
-    private
-    def handleTestEvent event
+    handle :AnotherTestEvent do |event|
       @handledEvents << event
     end
   
