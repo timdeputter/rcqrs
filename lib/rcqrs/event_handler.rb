@@ -20,9 +20,9 @@ module Rcqrs
        methodname = handler_method_name(event)
        send(methodname, aggregate_id,event)
       end
-      
+                  
       def handler_method_name(event)
-        "handle" + event.class.to_s.gsub(/[A-Z]/){|s| "_" + s.downcase}
+        "handle" + event.class.name.split("::").last.gsub(/[A-Z]/){|s| "_" + s.downcase}
       end
     end
     

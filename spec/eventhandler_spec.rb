@@ -1,20 +1,19 @@
 describe Rcqrs::EventHandler do
   
   before do 
-    @handler = mockup
-    @handler.include(Rcqrs::EventHandler)
+    @handler = DummyEventhandler
     @event = TestEventModule::TestEvent.new
   end
   
-  pending "should find the appropriate eventhandler method by the eventname" do
+  it "should find the appropriate eventhandler method by the eventname" do
     @handler.handle("aggregate_id",@event)
-    @handler.message(:handle_test_event).with("aggregate_id", any(TestEventModule::TestEvent)).should_be_received 
+    @handler.test_event_handled.should == true 
   end
   
-  pending "should allow to handle multiple events" do
+  it "should allow to handle multiple events" do
     class AnotherTestEvent < Rcqrs::BaseEvent; end
     @handler.handle("another_id",AnotherTestEvent.new);
-    @handler.message(:handle_another_test_event).with("another_id", any(AnotherTestEvent)).should_be_received
+    @handler.another_test_event_handled.should == true
   end
   
   it "should allow to get the names of all handled events" do
@@ -26,4 +25,21 @@ describe Rcqrs::EventHandler do
     ReadingHandledEventsTestHandler.handled_events[0].should == :TestEvent    
   end
     
+end
+
+class DummyEventhandler
+  include Rcqrs::EventHandler
+  
+  class << self
+    attr_reader :test_event_handled, :another_test_event_handled, :class_macro_event_handled    
+  end
+  
+  def self.handle_test_event aggregate_id, event
+    @test_event_handled = true
+  end
+  
+  def self.handle_another_test_event aggregate_id, event
+    @another_test_event_handled = true
+  end
+  
 end
