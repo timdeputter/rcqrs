@@ -22,7 +22,7 @@ describe Rcqrs::EventHandler do
       def self.handle_test_event; end
     end
     ReadingHandledEventsTestHandler.handled_events.size.should == 1
-    ReadingHandledEventsTestHandler.handled_events[0].should == :TestEvent    
+    ReadingHandledEventsTestHandler.handled_events[0].should == "TestEvent"    
   end
     
 end

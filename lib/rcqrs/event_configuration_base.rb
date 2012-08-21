@@ -6,7 +6,7 @@ module Rcqrs
     
     def self.register_handler(handler)
       handler.handled_events.each do |event_name|      
-        handle(Kernel.const_get(event_name)).with(handler)
+        handle(eval(event_name)).with(handler)
       end
     end
     
