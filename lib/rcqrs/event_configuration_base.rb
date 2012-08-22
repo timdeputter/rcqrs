@@ -6,7 +6,7 @@ module Rcqrs
     
     def self.register_handler(handler)
       handler.handled_events.each do |event_name|      
-        handle(eval(event_name)).with(handler)
+        handle(eval(full_event_name(event_name))).with(handler)
       end
     end
     
@@ -23,6 +23,14 @@ module Rcqrs
       config = EventConfig.new(eventtype)
       @configs << config
       config
+    end
+    
+    def self.namespace namespace
+      @namespace = namespace.to_s + "::"
+    end
+    
+    def self.full_event_name event_name
+      (@namespace || "") + event_name
     end
     
   end

@@ -25,10 +25,6 @@ module Rcqrs
         "handle" + event.class.name.split("::").last.gsub(/[A-Z]/){|s| "_" + s.downcase}
       end
       
-      def namespace namespace
-        @namespace = namespace.to_s + "::"
-      end
-      
     end
     
 end
