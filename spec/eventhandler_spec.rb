@@ -21,8 +21,13 @@ describe Rcqrs::EventHandler do
       include Rcqrs::EventHandler
       def self.handle_test_event; end
     end
-    ReadingHandledEventsTestHandler.handled_events.size.should == 1
-    ReadingHandledEventsTestHandler.handled_events[0].should == "TestEvent"    
+    ReadingHandledEventsTestHandler.handled_events.should == ["TestEvent"]
+  end
+  
+  it "should allow to define a eventhandler via a class macro" do
+    class ClassMacroEvent < Rcqrs::BaseEvent; end
+    @handler.handle("id",ClassMacroEvent.new)
+    @handler.class_macro_event_handled.should == true
   end
     
 end
@@ -40,6 +45,10 @@ class DummyEventhandler
   
   def self.handle_another_test_event aggregate_id, event
     @another_test_event_handled = true
+  end
+  
+  handler :class_macro_event do |aggregate_id, event|
+    @class_macro_event_handled = true
   end
   
 end

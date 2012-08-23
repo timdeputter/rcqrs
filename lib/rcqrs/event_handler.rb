@@ -25,6 +25,12 @@ module Rcqrs
         "handle" + event.class.name.split("::").last.gsub(/[A-Z]/){|s| "_" + s.downcase}
       end
       
+      def handler(event, &handlercode)
+        (class << self; self end).class_eval do
+          define_method "handle_"+event.to_s.gsub(/[A-Z]/){|s| "_" + s.downcase}, &handlercode
+        end
+      end
+      
     end
     
 end
