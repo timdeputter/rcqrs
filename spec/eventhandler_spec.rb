@@ -25,12 +25,14 @@ describe Rcqrs::EventHandler do
   end
   
   it "should allow to define a eventhandler via a class macro" do
-    class ClassMacroEvent < Rcqrs::BaseEvent; end
     @handler.handle("id",ClassMacroEvent.new)
     @handler.class_macro_event_handled.should == true
   end
-    
+      
 end
+
+class ClassMacroEvent < Rcqrs::BaseEvent; end
+
 
 class DummyEventhandler
   include Rcqrs::EventHandler

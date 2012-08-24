@@ -6,7 +6,7 @@ module Rcqrs
     
     def self.register_handler(handler)
       handler.handled_events.each do |event_name|      
-        handle(eval(full_event_name(event_name))).with(handler)
+        handle(event_name).with(handler)
       end
     end
     
@@ -20,7 +20,7 @@ module Rcqrs
     
     def self.handle(eventtype)
       @configs = Array.new if (@configs == nil)
-      config = EventConfig.new(eventtype)
+      config = EventConfig.new(eval(full_event_name(eventtype.to_s)))
       @configs << config
       config
     end
