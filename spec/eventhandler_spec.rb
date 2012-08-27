@@ -25,17 +25,35 @@ describe Rcqrs::EventHandler do
   end
   
   it "should allow to define a eventhandler via a class macro" do
-    @handler.handle("id",ClassMacroEvent.new)
+    @handler.handle("id",TestEventModule::ClassMacroEvent.new)
     @handler.class_macro_event_handled.should == true
+  end
+  
+  it "should automaticly register the eventhandler in the eventconfiguration" do
+    bus = DummyEventBus.new
+    Rcqrs::EventConfigurationBase.register_all_at bus
+    bus.config.should == {TestEventModule::ClassMacroEvent => DummyEventhandler}
   end
       
 end
 
-class ClassMacroEvent < Rcqrs::BaseEvent; end
-
+class DummyEventBus
+  
+  attr_reader :config
+  
+  def initialize
+    @config = Hash.new
+  end
+  
+  def register eventtype,eventhandler
+    @config[eventtype] = eventhandler
+  end
+end 
 
 class DummyEventhandler
   include Rcqrs::EventHandler
+  
+  namespace TestEventModule
   
   class << self
     attr_reader :test_event_handled, :another_test_event_handled, :class_macro_event_handled    

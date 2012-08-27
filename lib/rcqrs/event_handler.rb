@@ -24,10 +24,18 @@ module Rcqrs
       def handler_method_name(event)
         "handle" + event.class.name.split("::").last.gsub(/[A-Z]/){|s| "_" + s.downcase}
       end
+            
+      def namespace namespace
+        @namespace = namespace.to_s + "::"
+      end
       
       def handler(event, &handlercode)
         create_handler_method(event,handlercode)
-        EventConfigurationBase.handle(symbol_to_event_name(event)).with(self)
+        EventConfigurationBase.handle(full_event_name(event)).with(self)
+      end
+      
+      def full_event_name event_name
+        (@namespace || "") + symbol_to_event_name(event_name)
       end
       
       def symbol_to_event_name event

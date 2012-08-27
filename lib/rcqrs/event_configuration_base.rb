@@ -20,18 +20,10 @@ module Rcqrs
     
     def self.handle(eventtype)
       @configs = Array.new if (@configs == nil)
-      config = EventConfig.new(eval(full_event_name(eventtype.to_s)))
+      config = EventConfig.new(eval(eventtype.to_s))
       @configs << config
       config
-    end
-    
-    def self.namespace namespace
-      @namespace = namespace.to_s + "::"
-    end
-    
-    def self.full_event_name event_name
-      (@namespace || "") + event_name
-    end
+    end    
     
   end
   

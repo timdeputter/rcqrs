@@ -8,4 +8,6 @@ module TestEventModule
     
   end
   
+  class ClassMacroEvent < Rcqrs::BaseEvent; end
+
 end
