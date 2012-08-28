@@ -9,11 +9,11 @@ module Rcqrs
     module ClassMethods
       
       def handled_events
-        methods.select {|m| m.to_s.match(/^handle_/)}.map{|m| convert_to_event_name(m)}
+        methods.select {|m| m.to_s.match(/^handle_/)}.map{|m| convert_to_event_name(m[6..-1])}
       end
       
       def convert_to_event_name method
-        method[6..-1].to_s.gsub(/_[a-z]/){|s| s[1].upcase}
+        full_event_name(method)
       end
       
       def handle aggregate_id, event
@@ -39,7 +39,7 @@ module Rcqrs
       end
       
       def symbol_to_event_name event
-        name = event.to_s.to_s.gsub(/_[a-z]/){|s| s[1].upcase}
+        name = event.to_s.gsub(/_[a-z]/){|s| s[1].upcase}
         name[0] = name[0].upcase
         name
       end
