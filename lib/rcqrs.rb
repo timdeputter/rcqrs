@@ -20,6 +20,9 @@ require "rcqrs/event_handler"
 require "rcqrs/domain_exception"
 require "rcqrs/event_type_registry"
 require "rcqrs/event_configuration_base"
+require "rcqrs/configuration"
+
+require "rcqrs/command_executor"
 
 module Rcqrs
   # Your code goes here...

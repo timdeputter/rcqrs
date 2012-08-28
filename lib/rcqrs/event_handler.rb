@@ -30,6 +30,7 @@ module Rcqrs
       end
       
       def handler(event, &handlercode)
+        puts "defining eventhandler for: #{event}"
         create_handler_method(event,handlercode)
         EventConfigurationBase.handle(full_event_name(event)).with(self)
       end
