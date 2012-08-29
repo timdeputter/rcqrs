@@ -1,6 +1,7 @@
 module Rcqrs
 
   module Denormalizer
+    
     def map to_map
       if to_map.is_a? Hash
         return HashMapper.new to_map
@@ -21,7 +22,11 @@ module Rcqrs
       
       def to target
         @attribute_specification.each do |attribute_name|
-          target.send(attribute_name.to_s + "=",@source.send(attribute_name))
+            if(target.is_a? Hash)
+              target[attribute_name] = @source.send(attribute_name)
+            else
+              target.send(attribute_name.to_s + "=",@source.send(attribute_name))
+            end  
         end
       end
       
@@ -40,7 +45,11 @@ module Rcqrs
         
         def to target
           @hash_to_map.each do |key,value|
-            target.send(key.to_s + "=", value)
+            if(target.is_a? Hash)
+              target[key] = value
+            else
+              target.send(key.to_s + "=", value)            
+            end  
           end
         end
         

@@ -24,6 +24,12 @@ describe Rcqrs::Denormalizer do
       @target.message(:name=).with("thename").should_be_received
       @target.message(:age=).with(21).times(0).should_be_received          
     end
+    
+    it "should allow to map values to another hash" do
+      hash_target = Hash.new
+      @denormalizer.map({name: "thename", age: 21}).to(hash_target)
+      hash_target.should == {name: "thename", age: 21}
+    end
   end
   
   describe "with an object as source" do
@@ -50,6 +56,16 @@ describe Rcqrs::Denormalizer do
       @target.message(:age=).never.should_be_received      
     end
     
+    it "should allow to map to a hash" do
+      target_hash = Hash.new
+      @source.name = "Bernd"
+      @source.age = 534
+      @denormalizer.map([:name,:age]).from(@source).to(target_hash)
+      target_hash.should == {name: "Bernd", age: 534}
+    end
+    
   end
+  
+  
   
 end
