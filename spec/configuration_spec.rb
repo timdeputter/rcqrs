@@ -9,12 +9,5 @@ describe Rcqrs::Configuration do
     end
     subject.eventstore.should == "eventstore"
   end
-  
-  it "allows to configure a readmodel-database" do
-    subject.configure do |config|
-      config.readmodel_database = "readmodeldatabase"
-    end
-    subject.readmodel_database.should == "readmodeldatabase"
-  end
-  
+    
 end
