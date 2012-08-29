@@ -3,7 +3,7 @@ module Rcqrs
     
     class << self
     
-      attr_accessor :eventstore
+      attr_accessor :eventstore, :readmodel_database
 
       def configure
         yield self

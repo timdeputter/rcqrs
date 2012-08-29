@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   # s.add_runtime_dependency "rest-client"
 
   s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec-spies"
   s.add_development_dependency "activemodel"
   s.add_runtime_dependency "uuid"
   

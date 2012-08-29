@@ -1,9 +1,13 @@
 describe Rcqrs::Denormalizer do
   
+  before do
+      @denormalizer = Object.new
+      @denormalizer.extend Rcqrs::Denormalizer    
+  end
+  
   describe "mapping of hashes" do
+    
     before do
-      @denormalizer = mockup
-      @denormalizer.extend Rcqrs::Denormalizer
       @target = mockup    
     end
     
@@ -32,10 +36,10 @@ describe Rcqrs::Denormalizer do
     end
   end
   
+  
   describe "with an object as source" do
+
     before do
-      @denormalizer = mockup
-      @denormalizer.extend Rcqrs::Denormalizer
       class Source; attr_accessor :name, :age; end
       @source = Source.new
       @target = mockup
@@ -66,6 +70,30 @@ describe Rcqrs::Denormalizer do
     
   end
   
+  
+  context "database access" do
+    
+    class DummyReadmodelDatabase     
+      def save(modelname,data)       
+      end
+    end
+    
+    before do
+      @read_model_db = stub(DummyReadmodelDatabase)
+      Rcqrs::Configuration.readmodel_database = @read_model_db
+    end
+    
+    it "redirect all methodcalls to the readmodel_db if the Denormalizer doesnt define it" do
+      @read_model_db.stub!(:save)
+      @denormalizer.save(:model_name, {attr:"val"})
+      @read_model_db.should have_received(:save).with(:model_name, attr:"val")      
+    end
+    
+    it "if the readmodel_db doesnt define it normal method missing should raise" do
+      expect{@denormalizer.update(:model_name, "id",{attr:"val"})}.to raise_error
+    end
+    
+  end
   
   
 end

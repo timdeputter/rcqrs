@@ -5,6 +5,8 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require "rspec-spies"
+
 require_relative "../lib/rcqrs"
 
 require_relative "test_aggregate"

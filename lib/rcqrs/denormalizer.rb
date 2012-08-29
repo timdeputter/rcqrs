@@ -8,6 +8,14 @@ module Rcqrs
       end
       return AttributeMapper.new to_map
     end
+        
+    def method_missing(name, *args,&block)
+      if(Configuration.readmodel_database.respond_to?(name))
+        Configuration.readmodel_database.send(name,*args,&block)
+      else
+        super
+      end    
+    end
     
     class AttributeMapper
       
@@ -29,7 +37,7 @@ module Rcqrs
             end  
         end
       end
-      
+           
     end
     
     class HashMapper
