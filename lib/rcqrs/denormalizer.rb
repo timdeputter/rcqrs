@@ -12,7 +12,7 @@ module Rcqrs
     end
         
     def method_missing(name, *args,&block)
-      puts "denormalizer method missing, name #{name} args: #{args} model: #{@model}"
+      puts "denormalizer method missing, name #{name} args: #{args} model: #{model}"
       if(Configuration.readmodel_database.respond_to?(name))
         if(@model)  
           Configuration.readmodel_database.send(name,model,*args,&block)
