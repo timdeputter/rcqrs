@@ -2,6 +2,8 @@ module Rcqrs
 
   module Denormalizer
     
+    attr_accessor :model
+    
     def map to_map
       if to_map.is_a? Hash
         return HashMapper.new to_map
@@ -11,7 +13,11 @@ module Rcqrs
         
     def method_missing(name, *args,&block)
       if(Configuration.readmodel_database.respond_to?(name))
-        Configuration.readmodel_database.send(name,*args,&block)
+        if(@model)  
+          Configuration.readmodel_database.send(name,model,*args,&block)
+        else
+          Configuration.readmodel_database.send(name,*args,&block)
+        end  
       else
         super
       end    

@@ -85,8 +85,15 @@ describe Rcqrs::Denormalizer do
     
     it "redirect all methodcalls to the readmodel_db if the Denormalizer doesnt define it" do
       @read_model_db.stub!(:save)
-      @denormalizer.save(:model_name, {attr:"val"})
-      @read_model_db.should have_received(:save).with(:model_name, attr:"val")      
+      @denormalizer.save(:model_name,:params)
+      @read_model_db.should have_received(:save).with(:model_name,:params)      
+    end
+    
+    it "if a modelname is specified it is added to the parameterlist of the methodcall" do
+     @denormalizer.model = :model_name
+      @read_model_db.stub!(:save)
+      @denormalizer.save(:params)
+      @read_model_db.should have_received(:save).with(:model_name, :params)      
     end
     
     it "if the readmodel_db doesnt define it normal method missing should raise" do
