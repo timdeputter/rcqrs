@@ -90,7 +90,7 @@ describe Rcqrs::Denormalizer do
     end
     
     it "if a modelname is specified it is added to the parameterlist of the methodcall" do
-     @denormalizer.model = :model_name
+      @denormalizer.model = :model_name
       @read_model_db.stub!(:save)
       @denormalizer.save(:params)
       @read_model_db.should have_received(:save).with(:model_name, :params)      

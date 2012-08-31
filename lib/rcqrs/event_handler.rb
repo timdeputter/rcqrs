@@ -45,8 +45,9 @@ module Rcqrs
         name
       end
 
-      def create_handler_method(event,handlercode)             
-        (class << self; self end).class_eval do
+      def create_handler_method(event,handlercode)
+        itself = (class << self; self; end)             
+        itself.instance_eval do
           define_method "handle_"+event.to_s.gsub(/[A-Z]/){|s| "_" + s.downcase}, &handlercode
         end
       end      

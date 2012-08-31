@@ -2,7 +2,8 @@ module Rcqrs
 
   module Denormalizer
     
-    attr_accessor :model
+    
+    attr_accessor :model      
     
     def map to_map
       if to_map.is_a? Hash
