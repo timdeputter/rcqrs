@@ -1,11 +1,15 @@
 module Rcqrs
 
   class BaseEvent
-    
+        
       attr_reader :data
   
     def initialize data = {}
       @data = data
+    end
+    
+    def self.load_from data
+      self.new(data)
     end
     
     def [](index)
@@ -20,14 +24,6 @@ module Rcqrs
     
     def == other
       @data == other.data
-    end
-    
-    def serialized 
-      Marshal::dump(self)
-    end
-    
-    def self.deserialize serialized_event
-      Marshal::load(serialized_event)
     end
     
   end
