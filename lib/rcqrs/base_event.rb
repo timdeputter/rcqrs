@@ -2,10 +2,14 @@ module Rcqrs
 
   class BaseEvent
         
-      attr_reader :data
-  
+    attr_reader :data
+    
     def initialize data = {}
       @data = data
+    end
+    
+    def self.restore_from(data)
+      self.load_from(data)
     end
     
     def self.load_from data
