@@ -35,9 +35,7 @@ module Rcqrs
     private
     
     def store_events
-      @eventstore.transaction do
         @published_events.each { |event_tuple| @eventstore.store(event_tuple[:id], event_tuple[:event])}
-      end
     end
     
     def publish_events
