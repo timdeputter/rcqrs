@@ -3,8 +3,11 @@ module Rcqrs
   class ConventionCommandHandler < Rcqrs::BaseCommandHandler
     
     def execute command
+      puts "ConventionCommandHandler.execute(#{command})"
       account = repository.load(command.aggregate,command.aggregate_id)
+      puts "ConventionCommandHandler.execute --- account loaded"
       methodname = get_method_name_from_command command
+      puts "ConventionCommandHandler.execute --- method detected: #{methodname}"      
       if(command.data.empty?)
         account.send(methodname)      
       else
