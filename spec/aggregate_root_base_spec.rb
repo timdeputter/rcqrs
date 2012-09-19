@@ -63,7 +63,7 @@ describe Rcqrs::AggregateRootBase do
     @testAggregate.do_something_else
     @testAggregate.handledEvents[0].class.should == TestEventModule::AnotherTestEvent    
   end
-  
+
 end
 
 

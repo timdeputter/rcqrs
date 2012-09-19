@@ -3,6 +3,7 @@ module Rcqrs
   module CommandSource
     
     def execute(command, *params)
+      puts "CommandSource.execute(#{command}, #{params})"
       if command.is_a? Symbol
         commandhandler = get_commandhandler_from_symbol(command)
         commandhandler.executeCommand(*params)
