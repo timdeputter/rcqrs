@@ -61,7 +61,11 @@ module Rcqrs
         def to target
           @hash_to_map.each do |key,value|
             if(target.is_a? Hash)
-              target[key] = value
+              if(target.has_key? key.to_sym)
+                target[key.to_sym] = value
+              else
+                target[key] = value
+              end  
             else
               target.send(key.to_s + "=", value)            
             end  

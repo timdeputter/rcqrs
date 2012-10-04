@@ -34,6 +34,7 @@ describe Rcqrs::Denormalizer do
       @denormalizer.map({name: "thename", age: 21}).to(hash_target)
       hash_target.should == {name: "thename", age: 21}
     end
+        
   end
   
   
