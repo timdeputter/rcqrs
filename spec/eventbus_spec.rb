@@ -52,7 +52,7 @@ describe Rcqrs::Eventbus do
   it "should save the events in a eventstore during commit" do
     @bus.publish @id, @testevent
     @bus.commit
-    @mockEventStore.message(:store).once.with(@id, @testevent).should_be_received
+    @mockEventStore.message(:store).once.with([Rcqrs::PublishedEvent.new(@id, @testevent)]).should_be_received
   end
   
   it "should reject events not inherited from base event" do
@@ -77,7 +77,7 @@ describe "Eventbus without eventhandler" do
     testevent = EventbusTestevent.new "Hello happened"
     bus.publish id, testevent
     bus.commit
-    mockEventStore.message(:store).once.with(id, testevent).should_be_received    
+    mockEventStore.message(:store).once.with([Rcqrs::PublishedEvent.new(id, testevent)]).should_be_received    
   end
   
 end

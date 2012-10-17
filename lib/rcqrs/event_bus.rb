@@ -23,7 +23,7 @@ module Rcqrs
       unless event.is_a? BaseEvent then
         raise NotAnEventException, "Given event has to inherit from BaseEvent"
       end
-      @published_events << {:id => id, :event => event}
+      @published_events << PublishedEvent.new(id,event)
     end
     
     def commit
@@ -35,13 +35,13 @@ module Rcqrs
     private
     
     def store_events
-        @published_events.each { |event_tuple| @eventstore.store(event_tuple[:id], event_tuple[:event])}
+      @eventstore.store(@published_events)
     end
     
     def publish_events
       @published_events.each do |event_tuple|
-        if @eventhandlers[event_tuple[:event].class] != nil
-          @eventhandlers[event_tuple[:event].class].each {|handler| handler.handle event_tuple[:id], event_tuple[:event] }
+        if @eventhandlers[event_tuple.event.class] != nil
+          @eventhandlers[event_tuple.event.class].each {|handler| handler.handle event_tuple.aggregate_id, event_tuple.event }
         end      
       end
     end

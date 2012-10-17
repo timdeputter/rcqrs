@@ -21,6 +21,7 @@ require "rcqrs/domain_exception"
 require "rcqrs/event_type_registry"
 require "rcqrs/event_configuration_base"
 require "rcqrs/configuration"
+require "rcqrs/published_event"
 
 require "rcqrs/command_executor"
 
