@@ -8,12 +8,14 @@ module Rcqrs
       @data = data
     end
     
-    def self.restore_from(data)
-      self.load_from(data)
+    def self.restore_from(data, published_at)
+      self.load_from(data, published_at)
     end
     
-    def self.load_from data
-      self.new(data)
+    def self.load_from data, published_at
+      event = self.new(data)
+      event.instance_variable_set("@published_at",published_at)
+      event
     end
     
     def store_publish_time
