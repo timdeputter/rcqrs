@@ -28,6 +28,18 @@ describe Rcqrs::Eventbus do
     @anotherHandler.message(:handle).times(1).with(@id, @testevent).should_be_received
   end
   
+  it "stores the current time as publish time when commiting in the event" do
+    @bus.publish @id, @testevent
+    @bus.commit
+    @testevent.published_at.should be_kind_of DateTime    
+  end
+  
+  it "shouldnt be able to change the publish time after a commit" do
+    @bus.publish @id, @testevent
+    @bus.commit
+    expect{@testevent.store_publish_time}.to raise_error "Event has allready a publish date"
+  end
+  
   it "ignores double registrations of eventhandlers" do
     @bus.register(EventbusTestevent, @eventHandler)
     @bus.publish @id, @testevent

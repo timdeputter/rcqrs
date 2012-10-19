@@ -27,14 +27,19 @@ module Rcqrs
     end
     
     def commit
-      store_events
+      store_published_time_for_events
+      save_events
       publish_events
       flush
     end
     
     private
     
-    def store_events
+    def store_published_time_for_events
+      @published_events.each{|published_event| published_event.event.store_publish_time}
+    end
+    
+    def save_events
       @eventstore.store(@published_events)
     end
     
