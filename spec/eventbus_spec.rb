@@ -31,7 +31,7 @@ describe Rcqrs::Eventbus do
   it "stores the current time as publish time when commiting in the event" do
     @bus.publish @id, @testevent
     @bus.commit
-    @testevent.published_at.should be_kind_of DateTime    
+    @testevent.published_at.should be_kind_of Time    
   end
   
   it "shouldnt be able to change the publish time after a commit" do

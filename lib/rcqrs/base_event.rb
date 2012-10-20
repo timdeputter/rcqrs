@@ -20,7 +20,7 @@ module Rcqrs
     
     def store_publish_time
       raise "Event has allready a publish date" if(@published_at != nil)
-      @published_at = DateTime.now
+      @published_at = Time.now
     end
     
     def [](index)
