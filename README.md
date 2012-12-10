@@ -1,0 +1,4 @@
+rcqrs
+=====
+
+cqrs in ruby
