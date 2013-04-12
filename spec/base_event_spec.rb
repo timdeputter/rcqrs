@@ -27,5 +27,12 @@ describe Rcqrs::BaseEvent do
     class SomeOtherTestEvent < Rcqrs::BaseEvent; end
     lambda {SomeOtherTestEvent.new(name:"Jimbo")}.should raise_error "Property not defined"
   end
+
+  it "should allow to define multiple properties in one line" do
+    class TestEvent; property :weight, :size; end
+    jim = TestEvent.new(name:"jim", weight: 23, size: 185)
+    jim.weight.should be 23
+    jim.size.should be 185
+  end
 end
 

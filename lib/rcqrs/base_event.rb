@@ -12,11 +12,15 @@ module Rcqrs
       @data = data
     end
 
-    def self.property(property_name)
-      raise "data and published_at are not allowed property names" if (["data","published_at"].include? property_name.to_s)
-      @properties = Array.new unless @properties
-      @properties << property_name.to_s
-      attr_reader property_name
+    def self.property(*property_names)
+      property_names.each do |name|
+        raise "data and published_at are not allowed property names" if (["data","published_at"].include? name.to_s)
+      end
+      property_names.each do |property_name|
+        @properties = Array.new unless @properties
+        @properties << property_name.to_s
+        attr_reader property_name
+      end
     end
 
     def self.has_property(property)
