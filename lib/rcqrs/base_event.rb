@@ -20,6 +20,7 @@ module Rcqrs
     end
 
     def self.has_property(property)
+      return false unless @properties
       @properties.include?(property.to_s)
     end
     

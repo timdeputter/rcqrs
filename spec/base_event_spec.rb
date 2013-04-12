@@ -22,5 +22,10 @@ describe Rcqrs::BaseEvent do
   it "should not allow to define allready used methods as properties" do
     lambda {class TestEvent; property :data ;end}.should raise_error
   end
+
+  it "should work with no properties defined" do
+    class SomeOtherTestEvent < Rcqrs::BaseEvent; end
+    lambda {SomeOtherTestEvent.new(name:"Jimbo")}.should raise_error "Property not defined"
+  end
 end
 
