@@ -3,9 +3,24 @@ module Rcqrs
   class BaseEvent
         
     attr_reader :data, :published_at
-    
+
     def initialize data = {}
+      data.each do |k,v|
+        raise "Property not defined" unless self.class.has_property(k)
+        instance_variable_set("@#{k}",v)
+      end
       @data = data
+    end
+
+    def self.property(property_name)
+      raise "data and published_at are not allowed property names" if (["data","published_at"].include? property_name.to_s)
+      @properties = Array.new unless @properties
+      @properties << property_name.to_s
+      attr_reader property_name
+    end
+
+    def self.has_property(property)
+      @properties.include?(property.to_s)
     end
     
     def self.restore_from(data, published_at)
