@@ -6,7 +6,7 @@ class TestCommand
   end
 end
 
-class NonExistingCommand
+class NonExistingCommand < Rcqrs::BaseCommand
   
 end
 

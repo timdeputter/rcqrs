@@ -12,11 +12,11 @@ describe Rcqrs::CommandSource do
   end
   
   it "should raise NameError when commandhandler not found" do
-    expect {@commandSource.execute NonExistingCommand.new("Param")}.to raise_error(Rcqrs::CommandHandlerNotFoundError)
+    expect {@commandSource.execute NonExistingCommand.new(figo: "Param")}.to raise_error(Rcqrs::CommandHandlerNotFoundError)
   end
   
   it "should raise an Exception if the CommandHandler does not inherit from BaseCommandHandler" do
-    expect {@commandSource.execute DoesNotInheritFromBase.new("Param")}.to raise_error(Rcqrs::CommandHandlerDoesNotInheritFromBaseError)
+    expect {@commandSource.execute DoesNotInheritFromBase.new}.to raise_error(Rcqrs::CommandHandlerDoesNotInheritFromBaseError)
   end
   
   it "should provide the CommandHandler a repository" do
