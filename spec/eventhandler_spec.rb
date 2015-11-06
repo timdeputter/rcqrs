@@ -34,6 +34,12 @@ describe Rcqrs::EventHandler do
     Rcqrs::EventConfigurationBase.register_all_at bus
     bus.config.should == {TestEventModule::ClassMacroEvent => DummyEventhandler}
   end
+
+  it "handles errors which may occure during event processing" do
+    @handler.raise_error = true
+    @handler.handle("aggregate_id",@event)
+    @handler.exception.message.should == "Error occured"
+  end
       
 end
 
@@ -54,13 +60,22 @@ class DummyEventhandler
   include Rcqrs::EventHandler
   
   namespace TestEventModule
-  
+
   class << self
-    attr_reader :test_event_handled, :another_test_event_handled, :class_macro_event_handled    
+    attr_reader :test_event_handled, :another_test_event_handled, :class_macro_event_handled, :exception
+    attr_writer :raise_error
   end
   
   def self.handle_test_event aggregate_id, event
+    if @raise_error
+      @raise_error = false
+      raise "Error occured"
+    end
     @test_event_handled = true
+  end
+
+  def self.on_exception exception
+    @exception = exception
   end
   
   def self.handle_another_test_event aggregate_id, event

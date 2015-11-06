@@ -17,8 +17,16 @@ module Rcqrs
       end
       
       def handle aggregate_id, event
-       methodname = handler_method_name(event)
-       send(methodname, aggregate_id,event)
+        methodname = handler_method_name(event)
+        begin
+          send(methodname, aggregate_id,event)
+        rescue Exception => e
+          on_exception e
+        end
+      end
+
+      def on_exception exception
+        puts exception
       end
                   
       def handler_method_name(event)
